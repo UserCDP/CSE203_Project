@@ -97,7 +97,7 @@ Exercise
 Define the empty dictionary
 
  *)
-Definition empty : Dictionary := ... .
+Definition empty : Dictionary := Entry None Empty.
 
 (*
 ---------
