@@ -108,7 +108,22 @@ Define the dictionary containing "that", "the", "then", as drawn above
 
 *)
 Definition that_the_then : Dictionary :=
-  Entry None ... .
+  Entry None
+    (Cons (*t*)
+      (Cons (*h*)
+        (Cons (*e*)
+          (Cons Empty "n"%char (Entry (Some "next; after that.") Empty))
+        "e"%char (Entry (Some "denoting person(s) or thing(s) already mentioned") Empty)
+        )
+        "h"%char 
+          (Entry None 
+            (Cons
+              (Cons Empty "t"%char (Entry (Some "used to point forward to a following qualifying or defining clause or phrase.") Empty))
+              "a"%char empty
+            )
+          )
+      )
+    "t"%char empty).
 
 
 (*
