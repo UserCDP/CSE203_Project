@@ -138,11 +138,25 @@ if the word does not exist.
 
 
 *)
-Fixpoint find word dictionary : option string :=
-  ...
-with find_list char word listDictionary : option string :=
-    ...
-   end.
+
+(*THIS IS WRONG!!!*)
+Fixpoint find (word : string) (dictionary : Dictionary) : option string :=
+  match dictionary with
+  | Entry definition listDictionary =>
+    match word with
+    | EmptyString => definition
+    | String c rest => find_list c rest listDictionary
+    end
+  end
+with find_list (c : char) (word : string) (listDictionary : ListDictionary) : option string :=
+  match listDictionary with
+  | Empty => None
+  | Cons restListDictionary char' nextDictionary =>
+    if char' =c c then
+      find word nextDictionary
+    else
+      find_list c word restListDictionary
+  end.
 
 (* Your function should return the definitions  *)
 Eval compute in find "that" that_the_then .
@@ -163,9 +177,16 @@ and returns dictionary containing this single word with its definition.
 Test your function with the 'find' function and the 'Eval compute'
 command as above.
 *)
-Fixpoint new word def := 
- ...
+Fixpoint new (word : string) (def : string) : Dictionary :=
+  match word with
+  | EmptyString => Entry (Some def) Empty
+  | String c rest => Entry None (Cons Empty c (new rest def))
+  end.
 
+Definition new_dict := new "example" "a representative form or pattern".
+
+Eval compute in find "example" new_dict.
+Eval compute in find "ex" new_dict. 
 
 (*
 ---------
