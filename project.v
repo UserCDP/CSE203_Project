@@ -177,7 +177,7 @@ and returns dictionary containing this single word with its definition.
 Test your function with the 'find' function and the 'Eval compute'
 command as above.
 *)
-Fixpoint new (word : string) (def : string) : Dictionary :=
+Fixpoint new word def : Dictionary :=
   match word with
   | EmptyString => Entry (Some def) Empty
   | String c rest => Entry None (Cons Empty c (new rest def))
@@ -198,11 +198,27 @@ a dictionary, and returns a dictionary extending the previous one with the
 new definition given as input.
 
 *)
- Fixpoint insert word def dictionary :=
-...
-with insert_list char word def listDictionary :=
-  ...
-end.
+
+Fixpoint insert word def dictionary : Dictionary :=
+  match word with
+  | EmptyString => match dictionary with
+                   | Entry _ listDict => Entry (Some def) listDict
+                   end
+  | String c rest => match dictionary with
+                     | Entry _ listDict => Entry None (insert_list c rest def listDict)
+                     end
+  end
+with insert_list c word def listDict : ListDictionary :=
+  match listDict with
+  | Empty => Cons Empty c (new word def)
+  | Cons nextDict char' subDict =>
+    if Ascii.eqb c char' then
+      Cons (insert_list c word def nextDict) char' (insert word def subDict)
+    else
+      Cons (insert_list c word def nextDict) char' subDict
+  end.
+
+Eval compute in find "exotic" (insert "exotic" "unusual; far; warm" new_dict).
 
 (* **************
 
