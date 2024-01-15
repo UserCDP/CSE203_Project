@@ -201,12 +201,14 @@ new definition given as input.
 
 Fixpoint insert word def dictionary : Dictionary :=
   match word with
-  | EmptyString => match dictionary with
-                   | Entry _ listDict => Entry (Some def) listDict
-                   end
-  | String c rest => match dictionary with
-                     | Entry _ listDict => Entry None (insert_list c rest def listDict)
-                     end
+  | EmptyString => 
+      match dictionary with
+      | Entry _ listDict => Entry (Some def) listDict
+      end
+  | String c rest =>
+      match dictionary with
+      | Entry _ listDict => Entry None (insert_list c rest def listDict)
+      end
   end
 with insert_list c word def listDict : ListDictionary :=
   match listDict with
