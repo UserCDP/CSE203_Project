@@ -250,7 +250,12 @@ Exercise
 Lemma find_create def word :
   find word (new word def) = Some def.
 Proof.
-Abort.
+  induction word as [| c rest IH].
+  - simpl. reflexivity.
+  - simpl. assert (H: c =c c = true).
+    + unfold "=c". apply Ascii.eqb_eq. reflexivity.
+    + rewrite H. rewrite <- IH. reflexivity.
+Qed.
 
 
 (*
