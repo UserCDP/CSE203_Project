@@ -304,7 +304,15 @@ Exercise
 Corollary find_create_none def word word' : word <> word' ->
    find word' (new word def) = None.
 Proof.
-Abort.
+move => a.
+destruct (find word' (new word def)) eqn:b.
+specialize (find_create_unique _ _ _ _ b).
+move => c.
+case: c.
+move => c d.
+contradiction.
+reflexivity.
+Qed.
 
 
 Scheme Dictionary_List_rec := Induction for Dictionary Sort Prop
