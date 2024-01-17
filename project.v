@@ -428,7 +428,11 @@ canonical_l (l : ListDictionary) : Prop :=
 
 Lemma new_canonical : forall w d, canonical (new w d).
 Proof.
-Abort.
+  - induction w.
+    + simpl. reflexivity.
+    + simpl. split. reflexivity.
+      * split. reflexivity. apply IHw.
+Qed.
 
 
 
