@@ -267,7 +267,34 @@ Lemma find_create_unique def def' word word' :
   find word' (new word def) = Some def' ->
   def = def' /\ word = word'.
 Proof.
-Abort.
+move: word'.
+induction word.
+move => b a.
+simpl in a.
+destruct b.
+split.
+case: a.
+exact.
+reflexivity.
+discriminate a.
+simpl.
+move => word' d.
+destruct word'.
+discriminate d.
+move:d.
+case: eqb_spec.
+move => p k.
+specialize (IHword _ k).
+split.
+by case: IHword.
+rewrite p.
+case: IHword.
+move => u i.
+rewrite i.
+reflexivity.
+move => u i.
+discriminate i.
+Qed.
 
 (*
 --------
