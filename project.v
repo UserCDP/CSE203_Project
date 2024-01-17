@@ -400,12 +400,28 @@ Exercise
 (* Possibly using notoccur, define the predicate specifying that such a situation like 
 twice_t does not happen in a Dictionary (resp. a DictionaryList *)
 
-Fixpoint canonical d :=
-...
+(*Fixpoint canonical_l l :=
+  match l with
+    | Empty => True
+    | Cons l c' d => notoccur c' l /\ canonical_l l
+  end.
+
+Definition canonical d :=
+  match d with
+    | Entry None listDict => canonical_l listDict
+    | Entry (Some def) listDict => canonical_l listDict
+  end.*)
+ 
+Fixpoint canonical d : Prop :=
+  match d with
+    | Entry _ listDict => (canonical_l listDict)
+  end
 with
-canonical_l l :=
-...
-.
+canonical_l (l : ListDictionary) : Prop :=
+  match l with
+    | Empty => True
+    | Cons listDict c' d => notoccur c' listDict /\ (canonical_l listDict) /\ (canonical d)
+  end.
 
 
 (* Show a dictionary built by new is always canonical *)
