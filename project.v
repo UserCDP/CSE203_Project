@@ -141,7 +141,6 @@ if the word does not exist.
 
 *)
 
-(*THIS IS WRONG!!!*)
 Fixpoint find (word : string) (dictionary : Dictionary) : option string :=
   match dictionary with
   | Entry definition listDictionary =>
@@ -238,7 +237,10 @@ Exercise
 Lemma find_empty word :
   find word empty = None.
 Proof.
-Abort.
+  destruct word.
+  - simpl. reflexivity.
+  - simpl. reflexivity.
+Qed.
 
 (*
 --------
