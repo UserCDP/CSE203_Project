@@ -490,7 +490,13 @@ Exercise
    fits a quiz (like h_ngman) *)
 
 Fixpoint fits (s:string) (q:quiz) :=
-  ... .
+  match s, q with
+    | EmptyString, nil => True
+    | String c s', nil => False
+    | EmptyString, List.cons _ _ => False
+    | String c s', List.cons None q' => fits s' q'
+    | String c s', List.cons (Some c') q' => c =c c' /\ fits s' q'
+  end.
 
 
 Definition appString s c :=
