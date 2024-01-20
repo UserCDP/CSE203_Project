@@ -455,7 +455,10 @@ Exercise
  *)
 (* translate a list of definitions into a Dictionary *)
 Fixpoint dict_from_list (l : list (string * string)) : Dictionary :=
-  ... .
+  match l with
+    | nil => empty
+    | cons (w, d) l' => insert w d (dict_from_list l')
+  end.
 
 
 (* A quiz corresponds to a situation in the Hangman game, that is
