@@ -185,6 +185,7 @@ Fixpoint new word def : Dictionary :=
   end.
 
 Definition new_dict := new "example" "a representative form or pattern".
+Eval compute in new_dict.
 
 Eval compute in find "example" new_dict.
 Eval compute in find "ex" new_dict. 
@@ -216,10 +217,14 @@ with insert_list c word def listDict : ListDictionary :=
   | Empty => Cons Empty c (new word def)
   | Cons nextDict char' subDict =>
     if Ascii.eqb c char' then
-      Cons (insert_list c word def nextDict) char' (insert word def subDict)
+      Cons nextDict char' (insert word def subDict)
     else
       Cons (insert_list c word def nextDict) char' subDict
   end.
+
+Eval compute in new_dict.
+
+Eval compute in  (insert "exotic" "unusual; far; warm" new_dict).
 
 Eval compute in find "exotic" (insert "exotic" "unusual; far; warm" new_dict).
 
@@ -250,9 +255,8 @@ Exercise
 Lemma find_create def word :
   find word (new word def) = Some def.
 Proof.
-  induction word as [| c rest IH].
-  - simpl. reflexivity.
-  - simpl. assert (H: c =c c = true).
+  induction word as [| c rest IH] => //=.
+  - assert (H: c =c c = true).
     + unfold "=c". apply Ascii.eqb_eq. reflexivity.
     + rewrite H. rewrite <- IH. reflexivity.
 Qed.
@@ -333,12 +337,19 @@ Check Dictionary_List_rec.
 
 Lemma find_add : forall dictionary def word,
    find word (insert word def dictionary) = Some def.
-Proof.
-induction dictionary using Dictionary_List_rec with (P0 := fun listDictionary => 
-    (* correct code here *)
-   True
-  ).
-Abort.
+Proof. 
+induction dictionary using Dictionary_List_rec with (P0 := fun l => l = l).
+intros def word.
+induction word.
+simpl.
+reflexivity.
+simpl. (*Up to here its 98% good *)
+induction l.
+simpl.
+rewrite (eqb_refl a).
+apply find_create.
+simpl.
+
 
 
 (*
@@ -445,6 +456,7 @@ Exercise
 
 Lemma insert_canonical : forall d w def, canonical d -> canonical (insert w def d).
 Proof.
+  induction d using 
 Abort.
 
 
