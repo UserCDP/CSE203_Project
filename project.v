@@ -349,6 +349,10 @@ simpl.
 rewrite (eqb_refl a).
 apply find_create.
 simpl.
+case (eqb_spec a).
+move => p.
+rewrite p.
+apply IHl.
 
 
 
