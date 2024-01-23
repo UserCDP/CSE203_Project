@@ -352,8 +352,10 @@ simpl.
 case (eqb_spec a).
 move => p.
 rewrite p.
+Abort.
+(*
 apply IHl.
-
+*)
 
 
 (*
@@ -460,7 +462,6 @@ Exercise
 
 Lemma insert_canonical : forall d w def, canonical d -> canonical (insert w def d).
 Proof.
-  induction d using 
 Abort.
 
 
